@@ -1,21 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StatusBar, View } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import MainScreen from './src/screens/MainScreen';
+import DetailScreen from './src/screens/DetailScreen';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const navigator = createStackNavigator({
+  Main: MainScreen,
+  Detail: DetailScreen
+}, {
+  initialRouteName: 'Main',
+  defaultNavigationOptions: {
+    title: 'Pokedex',
+    headerTintColor: '#fff',
+    headerTitle: () => <Image style={{ width: 100, height: 50 }} source={require('./src/images/logo.png')} resizeMode={'contain'} />,
+    headerStyle: {
+      backgroundColor: '#C3262B',
+    }
+  }
 });
+
+const App = createAppContainer(navigator);
+
+export default () => {
+  return <View style={{ flex: 1 }}>
+      <StatusBar barStyle="light-content" />
+      <App/>
+    </View>
+};
